@@ -3,12 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sayt</title>
+    <title>Header Example</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .header-center {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
-    <header>shapka</header>
-    <main>osnova</main>
-    <footer>podval</footer>
-    
+    <header>
+        <div class="header-left">
+            <img src="left-icon.png" alt="Left Icon" class="icon">
+        </div>
+        <div class="header-center">
+            Музейно - патриотический центр 
+        </div>
+        <div class="header-right">
+            <img src="right-icon.png" alt="Right Icon" class="icon">
+        </div>
+    </header>
 </body>
 </html>
