@@ -13,7 +13,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #746C6C; /* Новый цвет фона */
+            background-color: #746C6C;
             color: white;
             padding: 10px 20px;
         }
@@ -21,21 +21,26 @@
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            flex-grow: 1; /* Чтобы текст оставался по центру */
+            flex-grow: 1;
         }
         .header-left img {
-            height: 40px; /* Фиксированная высота логотипа */
-            width: auto;  /* Сохраняет пропорции */
+            height: 40px;
+            width: auto;
         }
         .header-right {
             display: flex;
-            flex-direction: column; /* Располагаем элементы вертикально */
-            align-items: flex-end; /* Выравниваем по правому краю */
-            gap: 5px; /* Небольшой отступ между иконками */
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .icon-with-text {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .header-right img {
-            height: 24px; /* Устанавливаем высоту иконок */
-            width: auto;  /* Сохраняем пропорции */
+            height: 24px;
+            width: auto;
         }
     </style>
 </head>
@@ -46,8 +51,14 @@
         </div>
         <div class="header-title">Музейно-патриотический центр</div>
         <div class="header-right">
-            <img src="images/find.png" alt="Поиск">
-            <img src="images/RU.png" alt="Язык">
+            <div class="icon-with-text">
+                <img src="images/find.png" alt="Поиск">
+                <span>Поиск</span>
+            </div>
+            <div class="icon-with-text">
+                <img src="images/RU.png" alt="Язык">
+                <span>Язык</span>
+            </div>
         </div>
     </header>
 </body>
