@@ -121,6 +121,27 @@
         .full-width-image {
             height: 450px;
         }
+        
+        /* Стили для футера */
+        footer {
+            background-color: #746C6C; /* Такой же цвет как у header */
+            color: black;
+            padding: 25px 0;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px; /* Отступы от краев */
+        }
+        .footer-item {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -198,5 +219,15 @@
             </div>
         </div>
     </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-item">Спонсоры</div>
+            <div class="footer-item">О музее</div>
+            <div class="footer-item">Соц. Сети</div>
+            <div class="footer-item">Контакты</div>
+        </div>
+    </footer>
 </body>
 </html>
