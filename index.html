@@ -22,7 +22,7 @@
             justify-content: space-between;
             align-items: center;
             background-color: #746C6C;
-            color: black; /* Изменён цвет текста на чёрный */
+            color: black;
             padding: 10px 20px;
         }
         .header-title {
@@ -30,7 +30,7 @@
             font-weight: bold;
             text-align: center;
             flex-grow: 1;
-            color: black; /* Дополнительно задаём чёрный цвет для заголовка */
+            color: black;
         }
         .header-left img {
             height: 40px;
@@ -41,19 +41,26 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 5px;
-            color: black; /* Чёрный цвет для правого блока */
+            color: black;
         }
         .icon-with-text {
             display: flex;
             align-items: center;
             gap: 5px;
         }
-        .header-right img {
+        .icon-container {
+            background: #A8A1A1;
+            width: 24px;
             height: 24px;
-            width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px; /* Можно убрать для идеальных квадратов */
         }
-        .icon-with-text span {
-            color: black; /* Чёрный цвет для текста рядом с иконками */
+        .header-right img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
     </style>
 </head>
@@ -65,11 +72,15 @@
         <div class="header-title">Музейно-патриотический центр</div>
         <div class="header-right">
             <div class="icon-with-text">
-                <img src="images/find.png" alt="Поиск">
+                <div class="icon-container">
+                    <img src="images/find.png" alt="Поиск">
+                </div>
                 <span>Поиск</span>
             </div>
             <div class="icon-with-text">
-                <img src="images/RU.png" alt="Язык">
+                <div class="icon-container">
+                    <img src="images/RU.png" alt="Язык">
+                </div>
                 <span>Язык</span>
             </div>
         </div>
