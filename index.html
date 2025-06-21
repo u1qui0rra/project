@@ -76,7 +76,7 @@
             display: block;
         }
         
-        /* Стили для двух картинок под приветственной */
+        /* Стили для двух картинок */
         .image-row {
             display: flex;
             width: 100%;
@@ -87,6 +87,19 @@
             overflow: hidden;
         }
         .half-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Стили для основной коллекции */
+        .full-width-image {
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+        }
+        .full-width-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -126,6 +139,19 @@
         </div>
         <div class="half-image">
             <img src="images/buy tickets.png" alt="Купить билеты">
+        </div>
+    </div>
+    
+    <div class="full-width-image">
+        <img src="images/main collection.png" alt="Основная коллекция">
+    </div>
+    
+    <div class="image-row">
+        <div class="half-image">
+            <img src="images/callendar.png" alt="Календарь событий">
+        </div>
+        <div class="half-image">
+            <img src="images/client.png" alt="Клиентский сервис">
         </div>
     </div>
 </body>
