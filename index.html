@@ -66,13 +66,30 @@
         /* Стили для приветственной картинки */
         .welcome-image {
             width: 100%;
-            height: 589px; /* Фиксированная высота */
+            height: 589px;
             overflow: hidden;
         }
         .welcome-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Заполнение пространства с сохранением пропорций */
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Стили для двух картинок под приветственной */
+        .image-row {
+            display: flex;
+            width: 100%;
+        }
+        .half-image {
+            width: 50%;
+            height: 500px;
+            overflow: hidden;
+        }
+        .half-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
     </style>
@@ -101,6 +118,15 @@
     
     <div class="welcome-image">
         <img src="images/welcome screen.png" alt="Добро пожаловать в Музейно-патриотический центр">
+    </div>
+    
+    <div class="image-row">
+        <div class="half-image">
+            <img src="images/today exp.png" alt="Сегодня в экспозиции">
+        </div>
+        <div class="half-image">
+            <img src="images/buy tickets.png" alt="Купить билеты">
+        </div>
     </div>
 </body>
 </html>
