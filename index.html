@@ -63,17 +63,34 @@
             object-fit: contain;
         }
         
-        /* Стили для приветственной картинки */
-        .welcome-image {
+        /* Общие стили для изображений */
+        .image-container {
+            position: relative;
             width: 100%;
-            height: 589px;
             overflow: hidden;
         }
-        .welcome-image img {
+        .image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+        
+        /* Полупрозрачный текст-блок */
+        .text-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #14040487;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        /* Стили для приветственной картинки */
+        .welcome-image {
+            height: 589px;
         }
         
         /* Стили для двух картинок */
@@ -84,26 +101,11 @@
         .half-image {
             width: 50%;
             height: 500px;
-            overflow: hidden;
-        }
-        .half-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
         }
         
         /* Стили для основной коллекции */
         .full-width-image {
-            width: 100%;
             height: 450px;
-            overflow: hidden;
-        }
-        .full-width-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
         }
     </style>
 </head>
@@ -129,29 +131,57 @@
         </div>
     </header>
     
-    <div class="welcome-image">
-        <img src="images/welcome screen.png" alt="Добро пожаловать в Музейно-патриотический центр">
+    <!-- Приветственное изображение -->
+    <div class="image-container welcome-image">
+        <img src="images/welcome screen.png" alt="Добро пожаловать">
+        <div class="text-overlay">
+            <h2>Добро пожаловать в наш музей</h2>
+            <p>Откройте для себя уникальные коллекции и экспозиции</p>
+        </div>
     </div>
     
+    <!-- Первая пара изображений -->
     <div class="image-row">
-        <div class="half-image">
+        <div class="image-container half-image">
             <img src="images/today exp.png" alt="Сегодня в экспозиции">
+            <div class="text-overlay">
+                <h3>Сегодня в экспозиции</h3>
+                <p>Уникальные выставки этого месяца</p>
+            </div>
         </div>
-        <div class="half-image">
+        <div class="image-container half-image">
             <img src="images/buy tickets.png" alt="Купить билеты">
+            <div class="text-overlay">
+                <h3>Купить билеты</h3>
+                <p>Онлайн-бронирование доступно 24/7</p>
+            </div>
         </div>
     </div>
     
-    <div class="full-width-image">
+    <!-- Основная коллекция -->
+    <div class="image-container full-width-image">
         <img src="images/main collection.png" alt="Основная коллекция">
+        <div class="text-overlay">
+            <h2>Основная коллекция</h2>
+            <p>Более 10,000 экспонатов из разных эпох</p>
+        </div>
     </div>
     
+    <!-- Вторая пара изображений -->
     <div class="image-row">
-        <div class="half-image">
+        <div class="image-container half-image">
             <img src="images/callendar.png" alt="Календарь событий">
+            <div class="text-overlay">
+                <h3>Календарь событий</h3>
+                <p>Экскурсии, лекции и специальные мероприятия</p>
+            </div>
         </div>
-        <div class="half-image">
+        <div class="image-container half-image">
             <img src="images/client.png" alt="Клиентский сервис">
+            <div class="text-overlay">
+                <h3>Клиентский сервис</h3>
+                <p>Мы всегда рады помочь нашим посетителям</p>
+            </div>
         </div>
     </div>
 </body>
