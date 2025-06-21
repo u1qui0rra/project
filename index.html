@@ -63,17 +63,19 @@
             object-fit: contain;
         }
         
-        /* Общие стили для изображений */
+        /* Общие стили для изображений с анимацией */
         .image-container {
             position: relative;
             width: 100%;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         .image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: all 0.3s ease;
         }
         
         /* Полупрозрачный текст-блок */
@@ -86,6 +88,18 @@
             color: white;
             padding: 20px;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        /* Эффекты при наведении */
+        .image-container:hover img {
+            filter: brightness(70%);
+            transform: scale(1.02);
+        }
+        
+        .image-container:hover .text-overlay {
+            background: #140404cc;
+            padding-bottom: 25px;
         }
         
         /* Стили для приветственной картинки */
