@@ -27,6 +27,16 @@
             height: 40px; /* Фиксированная высота логотипа */
             width: auto;  /* Сохраняет пропорции */
         }
+        .header-right {
+            display: flex;
+            flex-direction: column; /* Располагаем элементы вертикально */
+            align-items: flex-end; /* Выравниваем по правому краю */
+            gap: 5px; /* Небольшой отступ между иконками */
+        }
+        .header-right img {
+            height: 24px; /* Устанавливаем высоту иконок */
+            width: auto;  /* Сохраняем пропорции */
+        }
     </style>
 </head>
 <body>
@@ -36,7 +46,8 @@
         </div>
         <div class="header-title">Музейно-патриотический центр</div>
         <div class="header-right">
-            <!-- Пока пусто, можно добавить иконку позже -->
+            <img src="images/find.png" alt="Поиск">
+            <img src="images/RU.png" alt="Язык">
         </div>
     </header>
 </body>
