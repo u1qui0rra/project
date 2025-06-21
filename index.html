@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Музейно-патриотический центр</title>
     <style>
+        /* Подключаем шрифт */
+        @font-face {
+            font-family: 'Lugrasimo';
+            src: url('fonts/Lugrasimo-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Lugrasimo', Arial, sans-serif;
         }
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: #746C6C;
-            color: white;
+            color: black; /* Изменён цвет текста на чёрный */
             padding: 10px 20px;
         }
         .header-title {
@@ -22,6 +30,7 @@
             font-weight: bold;
             text-align: center;
             flex-grow: 1;
+            color: black; /* Дополнительно задаём чёрный цвет для заголовка */
         }
         .header-left img {
             height: 40px;
@@ -32,6 +41,7 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 5px;
+            color: black; /* Чёрный цвет для правого блока */
         }
         .icon-with-text {
             display: flex;
@@ -41,6 +51,9 @@
         .header-right img {
             height: 24px;
             width: auto;
+        }
+        .icon-with-text span {
+            color: black; /* Чёрный цвет для текста рядом с иконками */
         }
     </style>
 </head>
