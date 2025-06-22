@@ -146,7 +146,7 @@
         }
 
         #scrollToTopBtn {
-            display: none; /* Скрыто по умолчанию */
+            display: none;
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -343,7 +343,7 @@
             <!-- Форма входа -->
             <div id="loginForm" class="form-container active">
                 <form id="loginFormData">
-                    <input type="email" id="loginEmail" placeholder="Ваш email" required>
+                    <input type="text" id="loginEmail" placeholder="Email или логин admin" required>
                     <input type="password" id="loginPassword" placeholder="Пароль" required>
                     <div>
                         <input type="checkbox" id="rememberMe">
@@ -488,56 +488,46 @@
             // Переключение между вкладками
             authTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
-                    // Убираем активный класс у всех вкладок
                     authTabs.forEach(t => t.classList.remove('active'));
-                    // Добавляем активный класс текущей вкладке
                     this.classList.add('active');
                     
-                    // Получаем имя вкладки
                     const tabName = this.getAttribute('data-tab');
                     
-                    // Скрываем все формы
                     document.querySelectorAll('.form-container').forEach(form => {
                         form.classList.remove('active');
                     });
                     
-                    // Показываем нужную форму
                     document.getElementById(tabName + 'Form').classList.add('active');
                 });
             });
 
             // Обработка входа
-               e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const shouldRemember = rememberMe.checked;
-            
-            // Проверка для администратора
-            if (email === 'admin' && password === '12345') {
-                handleSuccessfulAuth({
-                    email: 'admin@example.com',
-                    name: 'Администратор'
-                }, shouldRemember);
-                return;
-            }
-            
-            // Проверка email для обычных пользователей
-            if (!validateEmail(email)) {
-                showError(loginError, 'Введите корректный email');
-                return;
-            }
-            
-            // Проверка в базе пользователей
-            const user = usersDB.find(user => user.email === email);
-            
-            if (!user || user.password !== password) {
-                showError(loginError, 'Неверный email или пароль');
-                return;
-            }
-            
-            handleSuccessfulAuth(user, shouldRemember);
-        });
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const login = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                const shouldRemember = rememberMe.checked;
+                
+                // Проверка для администратора
+                if (login === 'admin' && password === '12345') {
+                    handleSuccessfulAuth({
+                        email: 'admin@example.com',
+                        name: 'Администратор'
+                    }, shouldRemember);
+                    return;
+                }
+                
+                // Проверка для обычных пользователей
+                const user = usersDB.find(user => user.email === login);
+                
+                if (!user || user.password !== password) {
+                    showError(loginError, 'Неверные учетные данные');
+                    return;
+                }
+                
+                handleSuccessfulAuth(user, shouldRemember);
+            });
 
             // Обработка регистрации
             registerForm.addEventListener('submit', function(e) {
@@ -577,7 +567,7 @@
                     id: Date.now(),
                     name: name,
                     email: email,
-                    password: password // В реальном проекте нужно шифрование!
+                    password: password
                 };
                 
                 usersDB.push(newUser);
@@ -598,7 +588,6 @@
             if (loginBtn) {
                 loginBtn.addEventListener('click', function() {
                     authModal.style.display = 'flex';
-                    // Активируем вкладку входа
                     authTabs[0].click();
                     resetErrors();
                 });
@@ -614,13 +603,12 @@
             // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
             
             function validateEmail(email) {
-            if (email === 'admin') return true;
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
             
             // Проверка авторизации при загрузке страницы
             function checkAuth() {
-                // Проверяем данные в localStorage и sessionStorage
                 let userData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
                 
                 if (userData) {
@@ -631,7 +619,6 @@
                         console.error('Ошибка чтения данных пользователя', e);
                     }
                 } else {
-                    // Проверяем старую авторизацию администратора
                     const isAuthenticated = localStorage.getItem('isAuthenticated');
                     if (isAuthenticated) {
                         updateUserInfo('Администратор', 'admin@example.com');
@@ -641,22 +628,18 @@
             
             // Обработка успешной авторизации
             function handleSuccessfulAuth(user, remember) {
-                // Выбираем хранилище в зависимости от галочки "Запомнить меня"
                 const storage = remember ? localStorage : sessionStorage;
                 
-                // Сохраняем данные пользователя
                 storage.setItem('userData', JSON.stringify({
                     email: user.email,
                     name: user.name,
                     timestamp: Date.now()
                 }));
                 
-                // Для совместимости с предыдущей версией (админ)
                 if (user.email === 'admin@example.com') {
                     localStorage.setItem('isAuthenticated', 'true');
                 }
                 
-                // Обновляем интерфейс
                 updateUserInfo(user.name, user.email);
                 closeAuthModal();
             }
@@ -671,12 +654,10 @@
             
             // Выход из системы
             function logout() {
-                // Удаляем все данные авторизации
                 localStorage.removeItem('userData');
                 sessionStorage.removeItem('userData');
                 localStorage.removeItem('isAuthenticated');
                 
-                // Обновляем интерфейс
                 if (userInfo) userInfo.style.display = 'none';
                 if (loginBtn) loginBtn.style.display = 'flex';
             }
@@ -708,12 +689,8 @@
                 if (registerForm) registerForm.reset();
             }
         });
-    </script>
-    <!-- Кнопка Scroll to Top -->
-    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">↑</button>
 
-    <script>
-        // Показываем кнопку, когда пользователь прокрутил вниз на 20px
+        // Кнопка "Наверх"
         window.onscroll = function() {
             scrollFunction();
         };
@@ -726,7 +703,6 @@
             }
         }
 
-        // Плавная прокрутка вверх при клике на кнопку
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -734,5 +710,6 @@
             });
         }
     </script>
+    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Наверх">↑</button>
 </body>
 </html>
