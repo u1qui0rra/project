@@ -6,6 +6,7 @@
     <title>Музейно-патриотический центр</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         @font-face {
             font-family: 'Lugrasimo';
@@ -61,16 +62,83 @@
             border-radius: 2px;
         }
 
-        /* Контейнеры для фоновых изображений */
-        .bg-image-container {
+        /* Контейнер для карусели */
+        .carousel-container {
+            width: 100%;
+            height: 500px; /* Фиксированная высота карусели */
             position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        /* Стили Swiper */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .swiper-slide {
+            width: 100%;
+            height: 100%;
+        }
+
+       /* Контейнер фонового изображения */
+        .bg-image-container {
             width: 100%;
             height: 100%;
             background-size: cover;
             background-position: center;
-            transition: all 0.3s ease;
+            position: relative;
         }
         
+        /* Текстовый оверлей */
+        .text-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20, 4, 4, 0.53);
+            color: white;
+            padding: 20px;
+            z-index: 2;
+        }
+        
+        /* Элементы управления каруселью */
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: rgba(255,255,255,0.5);
+            opacity: 1;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #fff;
+            width: 30px;
+            border-radius: 6px;
+        }
+        
+        .swiper-button-next, 
+        .swiper-button-prev {
+            color: white;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .swiper-button-next:hover, 
+        .swiper-button-prev:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .carousel-container {
+                height: 400px;
+            }
+        }
+
         /* Приветственное изображение */
         .welcome-bg {
             height: 589px;
@@ -91,6 +159,16 @@
             background-image: url('images/main collection.png');
         }
         
+        .main-collection2-bg {
+             height: 450px;
+             background-image: url('images/main collection2.png');
+        }
+
+        .main-collection3-bg {
+             height: 450px;
+             background-image: url('images/main collection3.png');
+        }
+
         .calendar-bg {
             background-image: url('images/callendar.png');
         }
@@ -116,19 +194,6 @@
             opacity: 1;
         }
         
-        /* Текстовый оверлей */
-        .text-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(20, 4, 4, 0.53);
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
         
         .bg-image-container:hover .text-overlay {
             background: rgba(20, 4, 4, 0.8);
@@ -424,11 +489,45 @@
         </div>
     </div>
     
-    <!-- Основная коллекция -->
-    <div class="bg-image-container main-collection-bg">
-        <div class="text-overlay">
-            <h2>Основная коллекция</h2>
-            <p>Более 10,000 экспонатов из разных эпох</p>
+    <!-- Карусель с фоновыми изображениями -->
+    <div class="carousel-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <!-- Слайд 1 -->
+                <div class="swiper-slide">
+                    <div class="bg-image-container" style="background-image: url('images/main collection.png')">
+                        <div class="text-overlay">
+                            <h3>Основная коллекция</h3>
+                            <p>Более 10,000 экспонатов из разных эпох</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Слайд 2 -->
+                <div class="swiper-slide">
+                    <div class="bg-image-container" style="background-image: url('images/main collection2.png')">
+                        <div class="text-overlay">
+                            <h3>Основная коллекция</h3>
+                            <p>Уникальные артефакты древности</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Слайд 3 -->
+                <div class="swiper-slide">
+                    <div class="bg-image-container" style="background-image: url('images/main collection3.png')">
+                        <div class="text-overlay">
+                            <h3>Основная коллекция</h3>
+                            <p>Современные экспонаты</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Элементы управления -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </div>
     
@@ -452,7 +551,10 @@
         </div>
     </div>
 
-    <!-- Футер -->
+
+
+            
+        <!-- Футер -->
     <footer>
         <div class="footer-content">
             <div class="footer-item">Спонсоры</div>
@@ -709,7 +811,63 @@
                 behavior: 'smooth'
             });
         }
+    
     </script>
+
+     <script>
+        // Инициализация Swiper
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.mySwiper', {
+                // Основные параметры
+                direction: 'horizontal',
+                loop: true,
+                speed: 800,
+                slidesPerView: 1,
+                spaceBetween: 0,
+                centeredSlides: true,
+                
+                // Эффекты
+                effect: 'slide', // Можно использовать 'fade', 'cube', 'coverflow'
+                
+                // Пагинация
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                    dynamicBullets: true
+                },
+                
+                // Навигация
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                
+                // Автопрокрутка
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: true,
+                    pauseOnMouseEnter: true
+                },
+                
+                // Дополнительные параметры
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                    onlyInViewport: true
+                },
+                mousewheel: {
+                    forceToAxis: true
+                }
+            });
+        });
+        
+        // Ваш остальной JavaScript код
+    </script>
+
+<!-- Подключаем скрипты в конце body -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <button onclick="scrollToTop()" id="scrollToTopBtn" title="Наверх">↑</button>
 </body>
 </html>
