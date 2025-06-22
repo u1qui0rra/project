@@ -507,32 +507,38 @@
             });
 
             // Обработка входа
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value;
-                const shouldRemember = rememberMe.checked;
-                
-                // Проверка для администратора (бэкдор)
-                if (email === 'admin' && password === '12345') {
-                    handleSuccessfulAuth({
-                        email: 'admin@example.com',
-                        name: 'Администратор'
-                    }, shouldRemember);
-                    return;
-                }
-                
-                // Проверка в базе пользователей
-                const user = usersDB.find(user => user.email === email);
-                
-                if (!user || user.password !== password) {
-                    showError(loginError, 'Неверный email или пароль');
-                    return;
-                }
-                
-                handleSuccessfulAuth(user, shouldRemember);
-            });
+           loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const shouldRemember = rememberMe.checked;
+    
+    // Проверка для администратора (бэкдор)
+    if (email === 'admin' && password === '12345') {
+        handleSuccessfulAuth({
+            email: 'admin@example.com',
+            name: 'Администратор'
+        }, shouldRemember);
+        return;
+    }
+    
+    // Для всех остальных - проверка email
+    if (!validateEmail(email)) {
+        showError(loginError, 'Введите корректный email');
+        return;
+    }
+    
+    // Проверка в базе пользователей
+    const user = usersDB.find(user => user.email === email);
+    
+    if (!user || user.password !== password) {
+        showError(loginError, 'Неверный email или пароль');
+        return;
+    }
+    
+    handleSuccessfulAuth(user, shouldRemember);
+});
 
             // Обработка регистрации
             registerForm.addEventListener('submit', function(e) {
@@ -608,11 +614,15 @@
 
             // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
             
-            // Проверка email с помощью регулярного выражения
             function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
+    // Разрешаем вход по логину 'admin' без проверки email
+    if (email === 'admin') {
+        return true;
+    }
+    // Стандартная проверка email
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
             
             // Проверка авторизации при загрузке страницы
             function checkAuth() {
