@@ -61,66 +61,59 @@
             border-radius: 2px;
         }
 
-        /* Основные графические элементы */
-        .graphic-container {
+        /* Контейнеры для фоновых изображений */
+        .bg-image-container {
             position: relative;
             width: 100%;
-            overflow: hidden;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
             transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
-        /* Приветственный баннер */
-        .welcome-graphic {
+        /* Приветственное изображение */
+        .welcome-bg {
             height: 589px;
-            background: linear-gradient(135deg, #8e9eab 0%, #eef2f3 100%);
+            background-image: url('images/welcome-screen.png');
         }
         
         /* Блоки контента */
-        .content-block {
-            height: 500px;
-            background-size: cover;
-            background-position: center;
+        .today-expo-bg {
+            background-image: url('images/today-exp.png');
         }
         
-        .today-expo {
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        .tickets-bg {
+            background-image: url('images/buy-tickets.png');
         }
         
-        .tickets {
-            background: linear-gradient(to right, #4776E6, #8E54E9);
-        }
-        
-        .main-collection {
+        .main-collection-bg {
             height: 450px;
-            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            background-image: url('images/main-collection.png');
         }
         
-        .calendar {
-            background: linear-gradient(to right, #a8ff78, #78ffd6);
+        .calendar-bg {
+            background-image: url('images/callendar.png');
         }
         
-        .client-service {
-            background: linear-gradient(to right, #FF416C, #FF4B2B);
+        .client-service-bg {
+            background-image: url('images/client.png');
         }
         
-        /* Декоративные элементы */
-        .graphic-pattern {
+        /* Затемнение фона при наведении */
+        .bg-image-container::after {
+            content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        .graphic-icon {
-            font-size: 80px;
-            color: white;
-            opacity: 0.2;
-            position: absolute;
+        .bg-image-container:hover::after {
+            opacity: 1;
         }
         
         /* Текстовый оверлей */
@@ -134,16 +127,10 @@
             padding: 20px;
             box-sizing: border-box;
             transition: all 0.3s ease;
+            z-index: 2;
         }
         
-        /* Эффекты при наведении */
-        .graphic-container:hover .graphic-pattern {
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.2) 0%, transparent 20%);
-        }
-        
-        .graphic-container:hover .text-overlay {
+        .bg-image-container:hover .text-overlay {
             background: rgba(20, 4, 4, 0.8);
             padding-bottom: 25px;
         }
@@ -155,6 +142,7 @@
         }
         .half-width {
             width: 50%;
+            height: 500px;
         }
         
         /* Футер */
@@ -179,14 +167,22 @@
         }
         
         /* Иконки в шапке */
-        .search-icon::before {
-            content: "🔍";
-            font-size: 16px;
+        .search-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('images/find.png');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
         
-        .lang-icon::before {
-            content: "🌐";
-            font-size: 16px;
+        .lang-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('images/RU.png');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
     </style>
 </head>
@@ -213,9 +209,7 @@
     </header>
     
     <!-- Приветственный баннер -->
-    <div class="graphic-container welcome-graphic">
-        <div class="graphic-pattern"></div>
-        <i class="graphic-icon fas fa-landmark"></i>
+    <div class="bg-image-container welcome-bg">
         <div class="text-overlay">
             <h2>Добро пожаловать в наш музей</h2>
             <p>Откройте для себя уникальные коллекции и экспозиции</p>
@@ -225,9 +219,7 @@
     <!-- Первая пара блоков -->
     <div class="content-row">
         <div class="half-width">
-            <div class="graphic-container content-block today-expo">
-                <div class="graphic-pattern"></div>
-                <i class="graphic-icon fas fa-calendar-day"></i>
+            <div class="bg-image-container today-expo-bg">
                 <div class="text-overlay">
                     <h3>Сегодня в экспозиции</h3>
                     <p>Уникальные выставки этого месяца</p>
@@ -235,9 +227,7 @@
             </div>
         </div>
         <div class="half-width">
-            <div class="graphic-container content-block tickets">
-                <div class="graphic-pattern"></div>
-                <i class="graphic-icon fas fa-ticket-alt"></i>
+            <div class="bg-image-container tickets-bg">
                 <div class="text-overlay">
                     <h3>Купить билеты</h3>
                     <p>Онлайн-бронирование доступно 24/7</p>
@@ -247,9 +237,7 @@
     </div>
     
     <!-- Основная коллекция -->
-    <div class="graphic-container main-collection">
-        <div class="graphic-pattern"></div>
-        <i class="graphic-icon fas fa-museum"></i>
+    <div class="bg-image-container main-collection-bg">
         <div class="text-overlay">
             <h2>Основная коллекция</h2>
             <p>Более 10,000 экспонатов из разных эпох</p>
@@ -259,9 +247,7 @@
     <!-- Вторая пара блоков -->
     <div class="content-row">
         <div class="half-width">
-            <div class="graphic-container content-block calendar">
-                <div class="graphic-pattern"></div>
-                <i class="graphic-icon fas fa-calendar-alt"></i>
+            <div class="bg-image-container calendar-bg">
                 <div class="text-overlay">
                     <h3>Календарь событий</h3>
                     <p>Экскурсии, лекции и специальные мероприятия</p>
@@ -269,9 +255,7 @@
             </div>
         </div>
         <div class="half-width">
-            <div class="graphic-container content-block client-service">
-                <div class="graphic-pattern"></div>
-                <i class="graphic-icon fas fa-headset"></i>
+            <div class="bg-image-container client-service-bg">
                 <div class="text-overlay">
                     <h3>Клиентский сервис</h3>
                     <p>Мы всегда рады помочь нашим посетителям</p>
