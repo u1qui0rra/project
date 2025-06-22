@@ -41,15 +41,15 @@
         }
         .header-right {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
+            align-items: center;
+            gap: 15px;
             color: black;
         }
         .icon-with-text {
             display: flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
         .icon-container {
             background: #A8A1A1;
@@ -248,6 +248,7 @@
             margin-top: 10px;
             display: none;
         }
+
         .auth-tabs {
             display: flex;
             margin-bottom: 20px;
@@ -269,12 +270,12 @@
             font-weight: bold;
         }
         
-        .auth-form {
+        .form-container {
             display: none;
         }
         
-        .auth-form.active {
-            display: flex;
+        .form-container.active {
+            display: block;
         }
         
         .password-requirements {
@@ -282,6 +283,31 @@
             color: #666;
             margin-top: -10px;
             margin-bottom: 10px;
+        }
+
+        /* Стили для информации о пользователе */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #A8A1A1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .icon-container .fa-user {
+            color: white;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -295,27 +321,31 @@
             </div>
             
             <!-- Форма входа -->
-            <form id="loginForm" class="auth-form active">
-                <input type="email" id="loginEmail" placeholder="Ваш email" required>
-                <input type="password" id="loginPassword" placeholder="Пароль" required>
-                <div>
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">Запомнить меня</label>
-                </div>
-                <button type="submit">Войти</button>
-                <div id="loginError" class="auth-error"></div>
-            </form>
+            <div id="loginForm" class="form-container active">
+                <form id="loginFormData">
+                    <input type="email" id="loginEmail" placeholder="Ваш email" required>
+                    <input type="password" id="loginPassword" placeholder="Пароль" required>
+                    <div>
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Запомнить меня</label>
+                    </div>
+                    <button type="submit">Войти</button>
+                    <div id="loginError" class="auth-error"></div>
+                </form>
+            </div>
             
             <!-- Форма регистрации -->
-            <form id="registerForm" class="auth-form">
-                <input type="text" id="regName" placeholder="Ваше имя" required>
-                <input type="email" id="regEmail" placeholder="Ваш email" required>
-                <input type="password" id="regPassword" placeholder="Пароль" required>
-                <div class="password-requirements">Пароль должен содержать минимум 6 символов</div>
-                <input type="password" id="regConfirm" placeholder="Повторите пароль" required>
-                <button type="submit">Зарегистрироваться</button>
-                <div id="registerError" class="auth-error"></div>
-            </form>
+            <div id="registerForm" class="form-container">
+                <form id="registerFormData">
+                    <input type="text" id="regName" placeholder="Ваше имя" required>
+                    <input type="email" id="regEmail" placeholder="Ваш email" required>
+                    <input type="password" id="regPassword" placeholder="Пароль" required>
+                    <div class="password-requirements">Пароль должен содержать минимум 6 символов</div>
+                    <input type="password" id="regConfirm" placeholder="Повторите пароль" required>
+                    <button type="submit">Зарегистрироваться</button>
+                    <div id="registerError" class="auth-error"></div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -325,11 +355,17 @@
         </div>
         <div class="header-title">Музейно-патриотический центр</div>
         <div class="header-right">
-            <div class="icon-with-text">
-                <div class="icon-container">
-                    <span class="search-icon"></span>
+            <div id="userInfo" class="user-info" style="display: none;">
+                <div class="user-avatar" id="userAvatar"></div>
+                <span id="userEmail"></span>
+            </div>
+            <div id="authButtons">
+                <div class="icon-with-text" id="loginBtn">
+                    <div class="icon-container">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>Вход</span>
                 </div>
-                <span>Поиск</span>
             </div>
             <div class="icon-with-text">
                 <div class="icon-container">
@@ -408,190 +444,246 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const authModal = document.getElementById('authModal');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const loginError = document.getElementById('loginError');
-        const registerError = document.getElementById('registerError');
-        const userInfo = document.getElementById('userInfo');
-        const userEmail = document.getElementById('userEmail');
-        const userAvatar = document.getElementById('userAvatar');
-        const loginBtn = document.getElementById('loginBtn');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Элементы интерфейса
+            const authModal = document.getElementById('authModal');
+            const loginForm = document.getElementById('loginFormData');
+            const registerForm = document.getElementById('registerFormData');
+            const authTabs = document.querySelectorAll('.auth-tab');
+            const loginError = document.getElementById('loginError');
+            const registerError = document.getElementById('registerError');
+            const userInfo = document.getElementById('userInfo');
+            const userEmail = document.getElementById('userEmail');
+            const userAvatar = document.getElementById('userAvatar');
+            const loginBtn = document.getElementById('loginBtn');
+            const rememberMe = document.getElementById('rememberMe');
 
-        // Хранилище пользователей
-        let usersDB = JSON.parse(localStorage.getItem('usersDB')) || [];
-        
-        // Проверяем авторизацию при загрузке
-        checkAuth();
+            // Хранилище пользователей
+            let usersDB = JSON.parse(localStorage.getItem('usersDB')) || [];
+            
+            // Проверяем авторизацию при загрузке
+            checkAuth();
 
-        // Переключение между вкладками
-        authTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                authTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                const tabName = this.getAttribute('data-tab');
-                loginForm.classList.remove('active');
-                registerForm.classList.remove('active');
-                
-                document.getElementById(tabName + 'Form').classList.add('active');
+            // Переключение между вкладками
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Убираем активный класс у всех вкладок
+                    authTabs.forEach(t => t.classList.remove('active'));
+                    // Добавляем активный класс текущей вкладке
+                    this.classList.add('active');
+                    
+                    // Получаем имя вкладки
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Скрываем все формы
+                    document.querySelectorAll('.form-container').forEach(form => {
+                        form.classList.remove('active');
+                    });
+                    
+                    // Показываем нужную форму
+                    document.getElementById(tabName + 'Form').classList.add('active');
+                });
             });
-        });
 
-        // Обработка входа (ваш оригинальный код + улучшения)
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const shouldRemember = document.getElementById('rememberMe').checked;
-            
-            // Ваша проверка для admin (можно оставить как бэкдор)
-            if (email === 'admin' && password === '12345') {
-                handleSuccessfulAuth({
-                    email: 'admin@example.com',
-                    name: 'Администратор'
-                }, shouldRemember);
-                return;
-            }
-            
-            // Проверка в базе зарегистрированных пользователей
-            const user = usersDB.find(user => user.email === email);
-            
-            if (!user || user.password !== password) {
-                showError(loginError, 'Неверный email или пароль');
-                return;
-            }
-            
-            handleSuccessfulAuth(user, shouldRemember);
-        });
+            // Обработка входа
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                const shouldRemember = rememberMe.checked;
+                
+                // Проверка для администратора (бэкдор)
+                if (email === 'admin' && password === '12345') {
+                    handleSuccessfulAuth({
+                        email: 'admin@example.com',
+                        name: 'Администратор'
+                    }, shouldRemember);
+                    return;
+                }
+                
+                // Проверка в базе пользователей
+                const user = usersDB.find(user => user.email === email);
+                
+                if (!user || user.password !== password) {
+                    showError(loginError, 'Неверный email или пароль');
+                    return;
+                }
+                
+                handleSuccessfulAuth(user, shouldRemember);
+            });
 
-        // Обработка регистрации
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirm').value;
-            
-            // Валидация
-            if (!email.includes('@')) {
-                showError(registerError, 'Введите корректный email');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showError(registerError, 'Пароль должен содержать минимум 6 символов');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showError(registerError, 'Пароли не совпадают');
-                return;
-            }
-            
-            // Проверка существования пользователя
-            if (usersDB.some(user => user.email === email)) {
-                showError(registerError, 'Пользователь с таким email уже зарегистрирован');
-                return;
-            }
-            
-            // Регистрация нового пользователя
-            const newUser = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: password // В реальном проекте нужно шифрование!
-            };
-            
-            usersDB.push(newUser);
-            localStorage.setItem('usersDB', JSON.stringify(usersDB));
-            
-            // Автовход после регистрации
-            handleSuccessfulAuth(newUser, true);
-        });
+            // Обработка регистрации
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('regName').value.trim();
+                const email = document.getElementById('regEmail').value.trim();
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('regConfirm').value;
+                
+                // Валидация email
+                if (!validateEmail(email)) {
+                    showError(registerError, 'Введите корректный email');
+                    return;
+                }
+                
+                // Проверка длины пароля
+                if (password.length < 6) {
+                    showError(registerError, 'Пароль должен содержать минимум 6 символов');
+                    return;
+                }
+                
+                // Проверка совпадения паролей
+                if (password !== confirmPassword) {
+                    showError(registerError, 'Пароли не совпадают');
+                    return;
+                }
+                
+                // Проверка существования пользователя
+                if (usersDB.some(user => user.email === email)) {
+                    showError(registerError, 'Пользователь с таким email уже зарегистрирован');
+                    return;
+                }
+                
+                // Регистрация нового пользователя
+                const newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    password: password // В реальном проекте нужно шифрование!
+                };
+                
+                usersDB.push(newUser);
+                localStorage.setItem('usersDB', JSON.stringify(usersDB));
+                
+                // Автоматический вход после регистрации
+                handleSuccessfulAuth(newUser, true);
+            });
 
-        // Закрытие модального окна
-        authModal.addEventListener('click', function(e) {
-            if (e.target === authModal) {
+            // Закрытие модального окна при клике вне формы
+            authModal.addEventListener('click', function(e) {
+                if (e.target === authModal) {
+                    closeAuthModal();
+                }
+            });
+
+            // Открытие модального окна при клике на кнопку входа
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    authModal.style.display = 'flex';
+                    // Активируем вкладку входа
+                    authTabs[0].click();
+                    resetErrors();
+                });
+            }
+
+            // Выход из системы
+            if (userInfo) {
+                userInfo.addEventListener('click', function() {
+                    logout();
+                });
+            }
+
+            // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+            
+            // Проверка email с помощью регулярного выражения
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Проверка авторизации при загрузке страницы
+            function checkAuth() {
+                // Проверяем данные в localStorage и sessionStorage
+                let userData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+                
+                if (userData) {
+                    try {
+                        const user = JSON.parse(userData);
+                        updateUserInfo(user.name, user.email);
+                    } catch (e) {
+                        console.error('Ошибка чтения данных пользователя', e);
+                    }
+                } else {
+                    // Проверяем старую авторизацию администратора
+                    const isAuthenticated = localStorage.getItem('isAuthenticated');
+                    if (isAuthenticated) {
+                        updateUserInfo('Администратор', 'admin@example.com');
+                    }
+                }
+            }
+            
+            // Обработка успешной авторизации
+            function handleSuccessfulAuth(user, remember) {
+                // Выбираем хранилище в зависимости от галочки "Запомнить меня"
+                const storage = remember ? localStorage : sessionStorage;
+                
+                // Сохраняем данные пользователя
+                storage.setItem('userData', JSON.stringify({
+                    email: user.email,
+                    name: user.name,
+                    timestamp: Date.now()
+                }));
+                
+                // Для совместимости с предыдущей версией (админ)
+                if (user.email === 'admin@example.com') {
+                    localStorage.setItem('isAuthenticated', 'true');
+                }
+                
+                // Обновляем интерфейс
+                updateUserInfo(user.name, user.email);
+                closeAuthModal();
+            }
+            
+            // Обновление информации о пользователе в шапке
+            function updateUserInfo(name, email) {
+                if (userEmail) userEmail.textContent = name || email;
+                if (userAvatar) userAvatar.textContent = (name || email).charAt(0).toUpperCase();
+                if (userInfo) userInfo.style.display = 'flex';
+                if (loginBtn) loginBtn.style.display = 'none';
+            }
+            
+            // Выход из системы
+            function logout() {
+                // Удаляем все данные авторизации
+                localStorage.removeItem('userData');
+                sessionStorage.removeItem('userData');
+                localStorage.removeItem('isAuthenticated');
+                
+                // Обновляем интерфейс
+                if (userInfo) userInfo.style.display = 'none';
+                if (loginBtn) loginBtn.style.display = 'flex';
+            }
+            
+            // Показать сообщение об ошибке
+            function showError(element, message) {
+                if (element) {
+                    element.textContent = message;
+                    element.style.display = 'block';
+                }
+            }
+            
+            // Закрытие модального окна
+            function closeAuthModal() {
                 authModal.style.display = 'none';
-                loginError.style.display = 'none';
-                registerError.style.display = 'none';
-            }
-        });
-
-        // Кнопка входа в шапке
-        loginBtn.addEventListener('click', function() {
-            authModal.style.display = 'flex';
-            authTabs[0].click(); // Активируем вкладку входа
-        });
-
-        // Выход из системы
-        userInfo.addEventListener('click', function() {
-            localStorage.removeItem('userData');
-            sessionStorage.removeItem('userData');
-            userInfo.style.display = 'none';
-            loginBtn.style.display = 'flex';
-        });
-
-        // === Вспомогательные функции ===
-        
-        function checkAuth() {
-            let userData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
-            
-            if (userData) {
-                try {
-                    const user = JSON.parse(userData);
-                    updateUserInfo(user.name, user.email);
-                } catch (e) {
-                    console.error('Ошибка чтения данных пользователя', e);
-                }
-            } else {
-                // Ваш оригинальный код для проверки isAuthenticated
-                const isAuthenticated = localStorage.getItem('isAuthenticated');
-                if (isAuthenticated) {
-                    updateUserInfo('Администратор', 'admin@example.com');
-                }
-            }
-        }
-        
-        function handleSuccessfulAuth(user, remember) {
-            const storage = remember ? localStorage : sessionStorage;
-            storage.setItem('userData', JSON.stringify({
-                email: user.email,
-                name: user.name,
-                timestamp: Date.now()
-            }));
-            
-            // Для совместимости с вашим старым кодом
-            if (user.email === 'admin@example.com') {
-                localStorage.setItem('isAuthenticated', 'true');
+                resetErrors();
+                resetForms();
             }
             
-            updateUserInfo(user.name, user.email);
-            authModal.style.display = 'none';
-            loginError.style.display = 'none';
-            registerError.style.display = 'none';
-            loginForm.reset();
-            registerForm.reset();
-        }
-        
-        function updateUserInfo(name, email) {
-            userEmail.textContent = name || email;
-            userAvatar.textContent = (name || email).charAt(0).toUpperCase();
-            userInfo.style.display = 'flex';
-            loginBtn.style.display = 'none';
-        }
-        
-        function showError(element, message) {
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-    });
-</script>
+            // Сброс ошибок
+            function resetErrors() {
+                if (loginError) loginError.style.display = 'none';
+                if (registerError) registerError.style.display = 'none';
+            }
+            
+            // Сброс форм
+            function resetForms() {
+                if (loginForm) loginForm.reset();
+                if (registerForm) registerForm.reset();
+            }
+        });
+    </script>
 </body>
 </html>
