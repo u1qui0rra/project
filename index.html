@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Музейно-патриотический центр</title>
-     <!-- Подключаем библиотеки через CDN -->
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <!-- Animate.css для анимаций -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-        /* Подключаем шрифт */
         @font-face {
             font-family: 'Lugrasimo';
             src: url('fonts/Lugrasimo-Regular.ttf') format('truetype');
@@ -26,6 +18,8 @@
             margin: 0;
             font-family: 'Lugrasimo', Arial, sans-serif;
         }
+        
+        /* Шапка */
         header {
             display: flex;
             justify-content: space-between;
@@ -66,34 +60,76 @@
             align-items: center;
             border-radius: 2px;
         }
-        .header-right img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        /* Общие стили для изображений с анимацией */
-        .image-container {
+
+        /* Основные графические элементы */
+        .graphic-container {
             position: relative;
             width: 100%;
             overflow: hidden;
             transition: all 0.3s ease;
-        }
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        /* Полупрозрачный текст-блок */
+        /* Приветственный баннер */
+        .welcome-graphic {
+            height: 589px;
+            background: linear-gradient(135deg, #8e9eab 0%, #eef2f3 100%);
+        }
+        
+        /* Блоки контента */
+        .content-block {
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .today-expo {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+        
+        .tickets {
+            background: linear-gradient(to right, #4776E6, #8E54E9);
+        }
+        
+        .main-collection {
+            height: 450px;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        }
+        
+        .calendar {
+            background: linear-gradient(to right, #a8ff78, #78ffd6);
+        }
+        
+        .client-service {
+            background: linear-gradient(to right, #FF416C, #FF4B2B);
+        }
+        
+        /* Декоративные элементы */
+        .graphic-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
+        }
+        
+        .graphic-icon {
+            font-size: 80px;
+            color: white;
+            opacity: 0.2;
+            position: absolute;
+        }
+        
+        /* Текстовый оверлей */
         .text-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: #14040487;
+            background: rgba(20, 4, 4, 0.53);
             color: white;
             padding: 20px;
             box-sizing: border-box;
@@ -101,39 +137,29 @@
         }
         
         /* Эффекты при наведении */
-        .image-container:hover img {
-            filter: brightness(70%);
-            transform: scale(1.02);
+        .graphic-container:hover .graphic-pattern {
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.2) 0%, transparent 20%);
         }
         
-        .image-container:hover .text-overlay {
-            background: #140404cc;
+        .graphic-container:hover .text-overlay {
+            background: rgba(20, 4, 4, 0.8);
             padding-bottom: 25px;
         }
         
-        /* Стили для приветственной картинки */
-        .welcome-image {
-            height: 589px;
-        }
-        
-        /* Стили для двух картинок */
-        .image-row {
+        /* Сетка */
+        .content-row {
             display: flex;
             width: 100%;
         }
-        .half-image {
+        .half-width {
             width: 50%;
-            height: 500px;
         }
         
-        /* Стили для основной коллекции */
-        .full-width-image {
-            height: 450px;
-        }
-        
-        /* Стили для футера */
+        /* Футер */
         footer {
-            background-color: #746C6C; /* Такой же цвет как у header */
+            background-color: #746C6C;
             color: black;
             padding: 25px 0;
             margin-top: 20px;
@@ -144,12 +170,23 @@
             justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 40px; /* Отступы от краев */
+            padding: 0 40px;
         }
         .footer-item {
             flex: 1;
             text-align: center;
             font-size: 18px;
+        }
+        
+        /* Иконки в шапке */
+        .search-icon::before {
+            content: "🔍";
+            font-size: 16px;
+        }
+        
+        .lang-icon::before {
+            content: "🌐";
+            font-size: 16px;
         }
     </style>
 </head>
@@ -162,69 +199,83 @@
         <div class="header-right">
             <div class="icon-with-text">
                 <div class="icon-container">
-                    <img src="images/find.png" alt="Поиск">
+                    <span class="search-icon"></span>
                 </div>
                 <span>Поиск</span>
             </div>
             <div class="icon-with-text">
                 <div class="icon-container">
-                    <img src="images/RU.png" alt="Язык">
+                    <span class="lang-icon"></span>
                 </div>
                 <span>Язык</span>
             </div>
         </div>
     </header>
     
-    <!-- Приветственное изображение -->
-    <div class="image-container welcome-image">
-        <img src="images/welcome screen.png" alt="Добро пожаловать">
+    <!-- Приветственный баннер -->
+    <div class="graphic-container welcome-graphic">
+        <div class="graphic-pattern"></div>
+        <i class="graphic-icon fas fa-landmark"></i>
         <div class="text-overlay">
             <h2>Добро пожаловать в наш музей</h2>
             <p>Откройте для себя уникальные коллекции и экспозиции</p>
         </div>
     </div>
     
-    <!-- Первая пара изображений -->
-    <div class="image-row">
-        <div class="image-container half-image">
-            <img src="images/today exp.png" alt="Сегодня в экспозиции">
-            <div class="text-overlay">
-                <h3>Сегодня в экспозиции</h3>
-                <p>Уникальные выставки этого месяца</p>
+    <!-- Первая пара блоков -->
+    <div class="content-row">
+        <div class="half-width">
+            <div class="graphic-container content-block today-expo">
+                <div class="graphic-pattern"></div>
+                <i class="graphic-icon fas fa-calendar-day"></i>
+                <div class="text-overlay">
+                    <h3>Сегодня в экспозиции</h3>
+                    <p>Уникальные выставки этого месяца</p>
+                </div>
             </div>
         </div>
-        <div class="image-container half-image">
-            <img src="images/buy tickets.png" alt="Купить билеты">
-            <div class="text-overlay">
-                <h3>Купить билеты</h3>
-                <p>Онлайн-бронирование доступно 24/7</p>
+        <div class="half-width">
+            <div class="graphic-container content-block tickets">
+                <div class="graphic-pattern"></div>
+                <i class="graphic-icon fas fa-ticket-alt"></i>
+                <div class="text-overlay">
+                    <h3>Купить билеты</h3>
+                    <p>Онлайн-бронирование доступно 24/7</p>
+                </div>
             </div>
         </div>
     </div>
     
     <!-- Основная коллекция -->
-    <div class="image-container full-width-image">
-        <img src="images/main collection.png" alt="Основная коллекция">
+    <div class="graphic-container main-collection">
+        <div class="graphic-pattern"></div>
+        <i class="graphic-icon fas fa-museum"></i>
         <div class="text-overlay">
             <h2>Основная коллекция</h2>
             <p>Более 10,000 экспонатов из разных эпох</p>
         </div>
     </div>
     
-    <!-- Вторая пара изображений -->
-    <div class="image-row">
-        <div class="image-container half-image">
-            <img src="images/callendar.png" alt="Календарь событий">
-            <div class="text-overlay">
-                <h3>Календарь событий</h3>
-                <p>Экскурсии, лекции и специальные мероприятия</p>
+    <!-- Вторая пара блоков -->
+    <div class="content-row">
+        <div class="half-width">
+            <div class="graphic-container content-block calendar">
+                <div class="graphic-pattern"></div>
+                <i class="graphic-icon fas fa-calendar-alt"></i>
+                <div class="text-overlay">
+                    <h3>Календарь событий</h3>
+                    <p>Экскурсии, лекции и специальные мероприятия</p>
+                </div>
             </div>
         </div>
-        <div class="image-container half-image">
-            <img src="images/client.png" alt="Клиентский сервис">
-            <div class="text-overlay">
-                <h3>Клиентский сервис</h3>
-                <p>Мы всегда рады помочь нашим посетителям</p>
+        <div class="half-width">
+            <div class="graphic-container content-block client-service">
+                <div class="graphic-pattern"></div>
+                <i class="graphic-icon fas fa-headset"></i>
+                <div class="text-overlay">
+                    <h3>Клиентский сервис</h3>
+                    <p>Мы всегда рады помочь нашим посетителям</p>
+                </div>
             </div>
         </div>
     </div>
@@ -238,8 +289,7 @@
             <div class="footer-item">Контакты</div>
         </div>
     </footer>
-    <script 
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
