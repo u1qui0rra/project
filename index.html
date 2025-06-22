@@ -144,6 +144,26 @@
             width: 50%;
             height: 500px;
         }
+
+        #scrollToTopBtn {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: #333;
+        }
         
         /* Футер */
         footer {
@@ -684,6 +704,31 @@
                 if (registerForm) registerForm.reset();
             }
         });
+    </script>
+    <!-- Кнопка Scroll to Top -->
+    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Показываем кнопку, когда пользователь прокрутил вниз на 20px
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("scrollToTopBtn").style.display = "block";
+            } else {
+                document.getElementById("scrollToTopBtn").style.display = "none";
+            }
+        }
+
+        // Плавная прокрутка вверх при клике на кнопку
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     </script>
 </body>
 </html>
